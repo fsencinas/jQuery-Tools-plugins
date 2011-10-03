@@ -58,19 +58,24 @@
 
 				movePage: function(offset, time) {
 					forward = offset > 0;
-					var steps = conf.size * offset;
 
-					index = this.getIndex() + conf.size;
-					if (index > this.getSize() - conf.size) {
-						//forward = true;
-						index -= this.getSize() - conf.size;
-					}
+					if (forward) {
+						var offset = this.getSize() - (this.getIndex() + conf.size);
 
-					var i = index % conf.size;
-					if (i > 0) {
-					 	steps += (forward ? -i : conf.size - i);
+						if (this.getIndex() + conf.size >= this.getSize() - conf.size) {
+							return this.move(offset, time);
+						} else {
+							return this.move(conf.size, time);
+						}
+					} else {
+						var offset = this.getSize() - (this.getSize() - this.getIndex());
+
+						if (this.getSize() - this.getIndex() >= this.getSize() - conf.size) {
+							return this.move(-offset, time);
+						} else {
+							return this.move(-conf.size, time);
+						}
 					}
-					return this.move(steps, time);
 				},
 
 				setPage: function(page, time, fn) {
@@ -82,7 +87,6 @@
 				},
 
 				nextPage: function(time) {
-					api.getVisibleItems();
 					return this.movePage(1, time);
 				}
 			});
@@ -140,35 +144,3 @@
 	};
 
 })(jQuery);
-
-
-/**
- * DEPRECATED STUFF
- */
-
-	// old movePage algorithm
-	/*
-	movePagex : function(offset, time) {
-		forward = offset > 0;
-
-		if (forward) {
-			var offset = this.getSize() - ((this.getIndex() + 1) + (conf.size - 1));
-			if (((this.getIndex() + 1) + (conf.size - 1)) >= this.getSize() - conf.size) {
-				return this.move(offset, time);
-			} else {
-				return this.move(conf.size, time);
-			}
-		} else {
-			var offset = this.getSize() - (this.getSize() - ((this.getIndex() + 1) - 1));
-			if ((this.getSize() - ((this.getIndex() + 1) - 1)) >= this.getSize() - conf.size) {
-				return this.move(-offset, time);
-			} else {
-				return this.move(-conf.size, time);
-			}
-		}
-	},
-	*/
-
-
-
-/* EOF */
