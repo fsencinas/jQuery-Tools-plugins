@@ -107,8 +107,8 @@
 				nextButton = jQuery(buttons).filter(nextClass);
 
 			// unbind original buttons event behaviour
-			prevButton.unbind('click', self.prev);
-			nextButton.unbind('click', self.next);
+			prevButton.unbind('click', api.prev);
+			nextButton.unbind('click', api.next);
 
 
 			// previous page button
